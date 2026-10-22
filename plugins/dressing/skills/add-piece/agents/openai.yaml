@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add a piece"
+  short_description: "Add an owned piece to Obsidian Inventory"
+  default_prompt: "Use $add-piece to add this piece to my Inventory."

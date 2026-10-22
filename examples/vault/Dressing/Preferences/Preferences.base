@@ -1,0 +1,13 @@
+filters:
+  and:
+    - 'file.folder == this.file.folder'
+    - 'base == "Preferences.base"'
+views:
+  - type: table
+    name: Preferences
+    order:
+      - file.name
+      - preference_type
+      - feedback_rating
+      - feedback_comment
+      - source_link

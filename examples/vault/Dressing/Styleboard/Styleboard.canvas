@@ -1,0 +1,14 @@
+{
+  "nodes": [
+    {
+      "id": "c98bd17f369a4520",
+      "type": "group",
+      "label": "Inspiration",
+      "x": 0,
+      "y": 0,
+      "width": 1400,
+      "height": 1200
+    }
+  ],
+  "edges": []
+}

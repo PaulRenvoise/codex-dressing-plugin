@@ -1,0 +1,4 @@
+interface:
+  display_name: "Stylist opinion"
+  short_description: "Get honest advice on style, colour, and size"
+  default_prompt: "Use $stylist-opinion to give me an honest opinion on this piece."

@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+venv/
+.env
+.env.*
+plugin-data/
+connection.json
+dist/
+.coverage
+htmlcov/

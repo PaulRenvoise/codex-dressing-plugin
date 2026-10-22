@@ -1,0 +1,4 @@
+interface:
+  display_name: "Curate the Styleboard"
+  short_description: "Choose references for the Styleboard Canvas"
+  default_prompt: "Use $curate-styleboard to suggest references for my Styleboard."

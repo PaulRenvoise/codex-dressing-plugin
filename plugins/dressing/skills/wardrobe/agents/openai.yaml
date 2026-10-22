@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wardrobe"
+  short_description: "Browse owned pieces and build outfits"
+  default_prompt: "Use $wardrobe to open my wardrobe and help me style selected pieces."

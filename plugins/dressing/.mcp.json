@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "Dressing": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--locked",
+        "--script",
+        "./scripts/feedback_server.py"
+      ],
+      "cwd": ".",
+      "startup_timeout_sec": 30,
+      "tool_timeout_sec": 1800,
+      "env_vars": [
+        "CODEX_HOME"
+      ]
+    }
+  }
+}

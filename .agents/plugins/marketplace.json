@@ -1,0 +1,20 @@
+{
+  "name": "codex-dressing-plugin",
+  "interface": {
+    "displayName": "Dressing"
+  },
+  "plugins": [
+    {
+      "name": "dressing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/dressing"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal shopper"
+  short_description: "Find pieces and manage my style preferences"
+  default_prompt: "Use $personal-shopper to recommend pieces that suit my wardrobe."

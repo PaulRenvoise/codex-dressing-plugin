@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dressing · Recommendations</title>
+<style>
+:root{color-scheme:light dark;font:14px/1.5 system-ui,sans-serif;color:var(--color-text-primary,#26251f);background:var(--color-background-primary,#fbfaf7)}
+*{box-sizing:border-box}body{margin:0;padding:20px}header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:#777469}h1{font-size:19px;margin:2px 0}h2{font-size:23px;line-height:1.2;margin:8px 0}.muted{color:#747168;font-size:12px}button,textarea{font:inherit}button{border:1px solid #d3d0c7;background:transparent;color:inherit;border-radius:9px;padding:10px 15px;cursor:pointer}button:disabled{opacity:.45;cursor:default}button:focus-visible,a:focus-visible,textarea:focus-visible{outline:3px solid #92784a;outline-offset:3px}.nav{display:flex;align-items:center;gap:9px}.nav button{padding:5px 12px}.card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}.photo{position:relative;min-height:320px;background:#eeede8;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center}.photo img[hidden]{display:none}.photo img{width:100%;height:380px;object-fit:contain;display:block}.image-status{position:absolute;bottom:10px;left:10px;right:10px;padding:8px 10px;border-radius:7px;background:#fbfaf7;color:#535047;font-size:12px}.image-status[hidden]{display:none}.brand{font-size:12px;color:#777469}.price{font-weight:650}.advice{margin:12px 0 18px}.link{color:inherit;text-underline-offset:3px}fieldset{padding:0;border:0;margin:18px 0 14px}legend{font-weight:600;margin-bottom:8px}.ratings{display:flex;gap:8px}.ratings button{flex:1}.ratings button[aria-pressed=true]{background:#31463c;color:#fff;border-color:#31463c}label{display:block;font-weight:600;margin-bottom:6px}textarea{width:100%;resize:vertical;min-height:76px;max-height:240px;border:1px solid #d3d0c7;border-radius:9px;background:transparent;color:inherit;padding:10px}.save{width:100%;margin-top:10px;background:#31463c;color:#fff;border-color:#31463c}.status{min-height:21px;margin:8px 0 0;font-size:12px}.error{color:#ad342d}.badge{display:inline-block;border-radius:5px;background:#eee5d2;color:#67532b;padding:3px 8px;font-size:11px;margin-bottom:7px}footer{margin-top:12px}.empty{padding:36px 0;text-align:center}@media(max-width:570px){body{padding:14px}.card{grid-template-columns:1fr;gap:16px}.photo{min-height:220px}.photo img[hidden]{display:none}.photo img{height:260px}h2{font-size:21px}}@media(prefers-color-scheme:dark){:root{background:var(--color-background-primary,#20221f);color:var(--color-text-primary,#f1f0e9)}.photo{background:#eeede8}.muted,.brand{color:#aaa79e}button,textarea{border-color:#66675e}}
+</style></head>
+<body><header><div><div class="eyebrow">Dressing</div><h1>Your selection</h1></div><nav class="nav" aria-label="Browse recommendations"><button id="prev" aria-label="Previous piece" disabled>←</button><span id="position" class="muted"></span><button id="next" aria-label="Next piece" disabled>→</button></nav></header>
+<main id="main"><p class="empty" id="waiting">Loading your selection…</p></main>
+<footer class="muted" id="footer">Your feedback stays a draft until you click Save.</footer>
+<script>
+(() => {
+  const main=document.getElementById('main'), pending=new Map(), drafts=new Map();
+  let serial=0, data=null, index=0, bridgeReady=false;
+  const post=(message)=>window.parent.postMessage({jsonrpc:'2.0',...message},'*');
+  function request(method,params,timeout=45000){
+    return new Promise((resolve,reject)=>{const id=++serial;const timer=setTimeout(()=>{pending.delete(id);reject(new Error('The connection timed out. Check Preferences before trying to save again.'));},timeout);pending.set(id,{resolve,reject,timer});post({id,method,params});});
+  }
+  function el(tag,text,cls){const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;}
+  function notifySize(){if(bridgeReady)post({method:'ui/notifications/size-changed',params:{height:document.documentElement.scrollHeight}});}
+  function render(result){
+    if(!Array.isArray(result?.cards))return;
+    data=result;index=Math.min(index,Math.max(0,data.cards.length-1));draw();
+  }
+  function draw(){
+    main.replaceChildren();
+    document.getElementById('prev').disabled=index===0;
+    document.getElementById('next').disabled=!data||index>=data.cards.length-1;
+    document.getElementById('position').textContent=data.cards.length?`${index+1} / ${data.cards.length}`:'';
+    document.getElementById('footer').textContent=data.demo?'Test mode: no feedback will be saved in Obsidian.':'Your feedback stays a draft until you click Save.';
+    if(!data.cards.length){main.append(el('p','No new pieces to rate: items you already own are excluded.','empty'));notifySize();return;}
+    const c=data.cards[index],p=c.piece.properties;
+    if(!drafts.has(c.card_id))drafts.set(c.card_id,{rating:null,comment:c.previous_comment||'',message:'',saving:false});
+    const d=drafts.get(c.card_id),article=el('article',undefined,'card'),photo=el('div',undefined,'photo'),img=el('img'),imageStatus=el('div','Loading photo…','image-status');
+    img.alt=c.piece.name;img.referrerPolicy='no-referrer';img.decoding='async';
+    img.onload=()=>{imageStatus.hidden=true;notifySize();};
+    img.onerror=()=>{imageStatus.hidden=false;imageStatus.textContent='Photo unavailable here. You can still open the product link.';img.hidden=true;notifySize();};
+    img.src=c.image_url;photo.append(img,imageStatus);
+    const content=el('div');if(data.demo)content.append(el('div','TEST · nothing will be saved','badge'));
+    content.append(el('div',(p.clothing_brand||[]).join(' · '),'brand'),el('h2',c.piece.name));
+    if(typeof p.price==='number')content.append(el('div',new Intl.NumberFormat('en-GB',{style:'currency',currency:'EUR'}).format(p.price),'price'));
+    const link=el('a','View piece ↗','link');link.href=p.clothing_link;link.target='_blank';link.rel='noopener noreferrer';
+    link.onclick=(event)=>{if(bridgeReady){event.preventDefault();request('ui/open-link',{url:p.clothing_link}).catch(()=>{status.textContent='Unable to open the page. Use the product link in the conversation.';});}};
+    content.append(link,el('p',c.advice,'advice'));
+    const fieldset=el('fieldset'),legend=el('legend','Your opinion'),ratings=el('div',undefined,'ratings'),status=el('p',d.message,'status');status.setAttribute('role','status');
+    const save=el('button',data.demo?'Test save':'Save','save');save.disabled=!d.rating||d.saving;save.type='button';
+    for(const [value,label] of [['yes','Yes'],['maybe','Maybe'],['no','No']]){const b=el('button',label);b.type='button';b.disabled=d.saving;b.setAttribute('aria-pressed',String(d.rating===value));b.onclick=()=>{d.rating=value;d.message='';draw();};ratings.append(b);}
+    fieldset.append(legend,ratings);content.append(fieldset);
+    const label=el('label','Comment (optional)'),comment=el('textarea');label.htmlFor='comment';comment.id='comment';comment.maxLength=20000;comment.value=d.comment;comment.disabled=d.saving;comment.placeholder='The fit, colour, what you like or dislike…';comment.oninput=()=>{d.comment=comment.value;d.message='';status.textContent='';};
+    save.onclick=async()=>{
+      if(!d.rating||d.saving)return;d.saving=true;d.message='Saving…';draw();
+      try{
+        const args={card_id:c.card_id,feedback_rating:d.rating,feedback_comment:d.comment};
+        const result=bridgeReady?await request('tools/call',{name:'save_card_feedback',arguments:args}):await window.openai?.callTool?.('save_card_feedback',args);
+        let r=result?.structuredContent;if(!r&&result?.content)try{r=JSON.parse(result.content.find(x=>x.type==='text')?.text);}catch{}
+        if(result?.isError||!r)throw new Error(r?.error||'Dressing is unavailable. No save was confirmed.');
+        if(r.status==='demo_saved')d.message='Test successful · nothing was written to Obsidian.';
+        else if(r.saved)d.message='Saved in Preferences.';
+        else if(r.status==='skipped_owned')d.message='This piece is already in Inventory: no feedback was saved.';
+        else throw new Error(r.error||'No save was confirmed.');
+      }catch(error){d.message=error.message;}
+      finally{d.saving=false;draw();}
+    };
+    content.append(label,comment,save,status);article.append(photo,content);main.append(article);notifySize();
+  }
+  document.getElementById('prev').onclick=()=>{if(index>0){index--;draw();}};
+  document.getElementById('next').onclick=()=>{if(index<data.cards.length-1){index++;draw();}};
+  window.addEventListener('message',event=>{
+    if(event.source!==window.parent)return;const m=event.data;if(m?.jsonrpc!=='2.0')return;
+    if(m.id!==undefined&&pending.has(m.id)){const p=pending.get(m.id);pending.delete(m.id);clearTimeout(p.timer);m.error?p.reject(new Error(m.error.message||'Connection error')):p.resolve(m.result);return;}
+    if(m.method==='ui/notifications/tool-result')render(m.params?.structuredContent);
+    if(m.method==='ui/notifications/host-context-changed'&&m.params?.theme)document.documentElement.style.colorScheme=m.params.theme;
+    if(m.method==='ping'&&m.id!==undefined)post({id:m.id,result:{}});
+    if(m.method==='ui/resource-teardown'&&m.id!==undefined)post({id:m.id,result:{}});
+  });
+  window.addEventListener('openai:set_globals',event=>render(event.detail?.globals?.toolOutput));
+  if(window.openai?.toolOutput)render(window.openai.toolOutput);
+  if(window.parent!==window)request('ui/initialize',{appInfo:{name:'Dressing',version:'1.8.0'},appCapabilities:{},protocolVersion:'2026-01-26'},10000).then(result=>{
+    bridgeReady=true;post({method:'ui/notifications/initialized'});if(result?.hostContext?.theme)document.documentElement.style.colorScheme=result.hostContext.theme;notifySize();
+  }).catch(()=>{if(!data)document.getElementById('waiting').textContent='This app does not provide the connection needed for cards. The native form is still available.';});
+})();
+</script></body></html>

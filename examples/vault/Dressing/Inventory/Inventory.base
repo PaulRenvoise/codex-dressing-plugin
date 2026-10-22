@@ -1,0 +1,14 @@
+filters:
+  and:
+    - 'file.folder == this.file.folder'
+    - 'base == "Inventory.base"'
+views:
+  - type: table
+    name: Inventory
+    order:
+      - file.name
+      - clothing_category
+      - clothing_brand
+      - color
+      - clothing_label_size
+      - clothing_photo

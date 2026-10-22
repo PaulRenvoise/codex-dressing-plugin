@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dressing · Styleboard</title>
+<style>
+:root{color-scheme:light dark;font:14px/1.5 system-ui,sans-serif;background:var(--color-background-primary,#fbfaf7);color:var(--color-text-primary,#26251f)}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;padding:20px}.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--color-text-secondary,#777469)}h1{font-size:22px;margin:3px 0}h2{font-size:16px;margin:0}p{margin:8px 0}.intro{color:var(--color-text-secondary,#777469);margin-bottom:18px}.toolbar{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin-bottom:20px}.destination{flex:1;min-width:200px}.destination label{display:block;font-weight:600;margin-bottom:6px}button,select{font:inherit;border:1px solid #a6a399;border-radius:9px;background:var(--color-background-primary,#fbfaf7);color:inherit;padding:10px 14px}select{width:100%}button{cursor:pointer}button:disabled,select:disabled{opacity:.5;cursor:default}button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #92784a;outline-offset:3px}.primary{background:#31463c;color:#fff;border-color:#31463c;font-weight:600}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}.card{position:relative;border:1px solid #d3d0c7;border-radius:12px;overflow:hidden;background:var(--color-background-primary,#fbfaf7)}.card.selected{outline:2px solid #53715f;outline-offset:0}.pick{display:flex;align-items:center;gap:9px;padding:12px;cursor:pointer;font-weight:600}.pick input{accent-color:#31463c;width:19px;height:19px;flex:none}.photo{height:260px;background:#eeede8;display:flex;align-items:center;justify-content:center;position:relative}.photo img{width:100%;height:100%;object-fit:contain}.photo img[hidden]{display:none}.image-state{position:absolute;bottom:10px;left:10px;right:10px;background:#fbfaf7;color:#535047;border-radius:6px;padding:7px;font-size:12px}.image-state[hidden]{display:none}.details{padding:0 12px 14px}.details p{font-size:13px}.source{color:inherit;font-size:12px;text-underline-offset:3px}.result{font-size:12px;color:#53715f;min-height:18px}.status{margin:16px 0 0;white-space:pre-line}.error{color:#b34539}.count{font-size:12px;color:var(--color-text-secondary,#777469)}.demo{background:#eee5d2;color:#67532b;padding:6px 10px;border-radius:6px;display:inline-block;margin:8px 0}.empty{padding:30px 0;text-align:center}.actions{display:flex;gap:8px;margin-bottom:12px}@media(max-width:490px){body{padding:14px}.grid{grid-template-columns:1fr 1fr;gap:10px}.photo{height:200px}.pick{padding:10px;font-size:12px;align-items:start}.toolbar .primary{width:100%}.details{padding:0 10px 12px}}@media(prefers-color-scheme:dark){.card,button,select{border-color:#66675e}.result{color:#a3c4ac}}
+</style></head><body>
+<header><div class="eyebrow">Dressing</div><h1>Shape your Styleboard</h1><p class="intro">Select the references you like and choose where they belong.</p></header>
+<div id="demo" class="demo" hidden>TEST · nothing will be saved in Obsidian</div>
+<div class="toolbar"><div class="destination"><label for="group">Destination group</label><select id="group" disabled><option value="">Choose a group…</option></select></div><button id="save" class="primary" disabled>Add selected</button></div>
+<div class="actions"><button id="all" disabled>Select all</button><button id="clear" disabled>Clear selection</button></div>
+<p id="count" class="count" aria-live="polite">No references selected</p>
+<main id="gallery" class="grid"><p class="empty">Loading references…</p></main>
+<p id="status" class="status" role="status" aria-live="polite"></p>
+<p class="count">Only selected references are saved. The destination group may expand into empty space; other items stay in place.</p>
+<script>
+(() => {
+  const $=id=>document.getElementById(id),pending=new Map(),selected=new Set(),completed=new Map();
+  let serial=0,data=null,ready=false,saving=false;
+  const post=m=>window.parent.postMessage({jsonrpc:'2.0',...m},'*');
+  function request(method,params,timeout=45000){return new Promise((resolve,reject)=>{const id=++serial,timer=setTimeout(()=>{pending.delete(id);reject(new Error('The connection timed out. Check the Styleboard before retrying; the save may still finish.'));},timeout);pending.set(id,{resolve,reject,timer});post({id,method,params});});}
+  function el(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;}
+  function size(){if(ready)post({method:'ui/notifications/size-changed',params:{height:document.documentElement.scrollHeight}});}
+  function update(){
+    const enabled=ready||typeof window.openai?.callTool==='function';
+    $('save').disabled=saving||!enabled||!selected.size||!$('group').value;
+    $('save').textContent=saving?'Adding…':`${data?.demo?'Test add':'Add selected'}${selected.size?' ('+selected.size+')':''}`;
+    $('group').disabled=saving||!data;$('all').disabled=saving||!data||data.references.every(r=>completed.has(r.reference_id));$('clear').disabled=saving||!selected.size;
+    $('count').textContent=`${selected.size} reference${selected.size===1?'':'s'} selected`;
+    for(const input of document.querySelectorAll('input[type=checkbox]')){input.checked=selected.has(input.value);input.disabled=saving||completed.has(input.value);input.closest('article').classList.toggle('selected',input.checked);}
+    size();
+  }
+  function render(result){
+    if(!result?.gallery_id||!Array.isArray(result.references)||!Array.isArray(result.groups))return;
+    const same=data?.gallery_id===result.gallery_id,oldGroup=$('group').value;
+    if(!same){selected.clear();completed.clear();$('status').textContent='';}
+    data=result;$('demo').hidden=!data.demo;
+    $('group').replaceChildren();const placeholder=el('option','Choose a group…');placeholder.value='';$('group').append(placeholder);
+    const counts=new Map();for(const g of data.groups)counts.set(g.label,(counts.get(g.label)||0)+1);
+    for(const g of data.groups){const o=el('option',g.label+(counts.get(g.label)>1?' · '+g.id.slice(-6):''));o.value=g.id;$('group').append(o);}
+    if(same&&data.groups.some(g=>g.id===oldGroup))$('group').value=oldGroup;
+    $('gallery').replaceChildren();
+    for(const r of data.references){
+      const card=el('article',undefined,'card'),photo=el('div',undefined,'photo'),img=el('img'),imageState=el('div','Loading image…','image-state');
+      img.alt=r.title;img.referrerPolicy='no-referrer';img.decoding='async';img.onload=()=>{imageState.hidden=true;size();};img.onerror=()=>{img.hidden=true;imageState.hidden=false;imageState.textContent='Image unavailable here. Open the source to inspect it.';size();};img.src=r.image_url;photo.append(img,imageState);
+      const label=el('label',undefined,'pick'),input=el('input');input.type='checkbox';input.value=r.reference_id;input.onchange=()=>{input.checked?selected.add(r.reference_id):selected.delete(r.reference_id);update();};label.append(input,el('span',r.title));
+      const details=el('div',undefined,'details'),link=el('a','View source ↗','source');link.href=r.source_url;link.target='_blank';link.rel='noopener noreferrer';link.onclick=event=>{if(ready){event.preventDefault();request('ui/open-link',{url:r.source_url}).catch(e=>{$('status').textContent=e.message;});}};
+      details.append(el('p',r.note),link,el('p',completed.get(r.reference_id)||'','result'));card.append(photo,label,details);$('gallery').append(card);
+    }
+    update();
+  }
+  $('group').onchange=update;
+  $('all').onclick=()=>{for(const r of data.references)if(!completed.has(r.reference_id))selected.add(r.reference_id);update();};
+  $('clear').onclick=()=>{selected.clear();update();};
+  $('save').onclick=async()=>{
+    if(saving||!selected.size||!$('group').value)return;
+    const ids=[...selected],args={gallery_id:data.gallery_id,reference_ids:ids,group_id:$('group').value};
+    saving=true;$('status').className='status';$('status').textContent='Adding your selected references…';update();
+    try{
+      const response=ready?await request('tools/call',{name:'add_styleboard_selection',arguments:args},600000):await window.openai.callTool('add_styleboard_selection',args);
+      let r=response?.structuredContent;if(!r&&response?.content)try{r=JSON.parse(response.content.find(c=>c.type==='text')?.text);}catch{}
+      if(response?.isError||!r)throw new Error([r?.error,r?.message].filter(Boolean).join(' ')||'No save was confirmed.');
+      if(r.status==='demo_saved'){$('status').textContent=`Test successful · ${r.selected_count} selected; nothing was written to Obsidian.`;}
+      else if(['saved','already_present'].includes(r.status)){
+        for(const id of r.added_ids||[])completed.set(id,'Added to '+r.group_label);
+        for(const id of r.skipped_ids||[])completed.set(id,'Already on your Styleboard');
+        for(const warning of r.warnings||[])completed.set(warning.reference_id,'Added as source link · image unavailable');
+        for(const id of [...(r.added_ids||[]),...(r.skipped_ids||[])])selected.delete(id);
+        const warnings=(r.warnings||[]).length;
+        $('status').textContent=`${(r.added_ids||[]).length} added to ${r.group_label}. ${(r.skipped_ids||[]).length} already present.`+(warnings?`\n${warnings} saved as source links because their images could not be downloaded.`:'');
+      }else throw new Error('Unexpected response. Check the Styleboard before retrying.');
+    }catch(e){$('status').className='status error';$('status').textContent=e.message;}
+    finally{saving=false;render(data);}
+  };
+  window.addEventListener('message',event=>{
+    if(event.source!==window.parent)return;const m=event.data;if(m?.jsonrpc!=='2.0')return;
+    if(m.id!==undefined&&pending.has(m.id)){const p=pending.get(m.id);pending.delete(m.id);clearTimeout(p.timer);m.error?p.reject(new Error(m.error.message||'Connection error')):p.resolve(m.result);return;}
+    if(m.method==='ui/notifications/tool-result')render(m.params?.structuredContent);
+    if(m.method==='ui/notifications/host-context-changed'&&m.params?.theme)document.documentElement.style.colorScheme=m.params.theme;
+    if(['ping','ui/resource-teardown'].includes(m.method)&&m.id!==undefined)post({id:m.id,result:{}});
+  });
+  window.addEventListener('openai:set_globals',event=>render(event.detail?.globals?.toolOutput));
+  if(window.openai?.toolOutput)render(window.openai.toolOutput);
+  if(window.parent!==window)request('ui/initialize',{appInfo:{name:'Dressing Styleboard',version:'1.8.0'},appCapabilities:{},protocolVersion:'2026-01-26'},10000).then(r=>{ready=true;post({method:'ui/notifications/initialized'});if(r?.hostContext?.theme)document.documentElement.style.colorScheme=r.hostContext.theme;update();}).catch(()=>{$('status').textContent='The gallery connection is unavailable. You can tell Dressing your selections in chat.';update();});
+})();
+</script></body></html>

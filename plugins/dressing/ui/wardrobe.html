@@ -1,0 +1,191 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dressing · Wardrobe</title>
+<style>
+:root{--wardrobe-bg:#fbfaf7;--wardrobe-text:#292a25;--wardrobe-muted:#62665c;--wardrobe-border:#bebfb4;--wardrobe-selected-bg:#e6ece5;--wardrobe-selected-text:#304332;--wardrobe-accent:#314d3c;--wardrobe-accent-text:#ffffff;--wardrobe-error:#a32e25;color-scheme:light;font:14px/1.45 system-ui,sans-serif;color:var(--wardrobe-text);background:var(--wardrobe-bg)}*{box-sizing:border-box}[hidden]{display:none!important}html,body{margin:0;height:100%}body{display:flex;flex-direction:column;min-height:560px}header{padding:18px 18px 12px;border-bottom:1px solid var(--wardrobe-border)}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--wardrobe-muted)}h1{font-size:22px;margin:2px 0}h2{font-size:14px;margin:0}.muted{font-size:12px;color:var(--wardrobe-muted)}button,input,select,textarea{font:inherit;color:inherit}button,select,input[type=search],textarea{border:1px solid var(--wardrobe-border);border-radius:8px;padding:9px 11px;background:var(--wardrobe-bg)}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #92784a;outline-offset:2px}.filters{display:grid;grid-template-columns:minmax(0,1fr) 140px;gap:8px;margin:12px 0 7px}.filters input{min-width:0}.filters select{width:100%}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.browse{overflow:auto;flex:1;min-height:180px;padding:14px 18px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.card{border:1px solid var(--wardrobe-border);border-radius:10px;overflow:hidden;min-width:0;align-self:start}.card.selected{outline:2px solid var(--wardrobe-accent);outline-offset:-1px}.photo{height:180px;background:#efeee9;position:relative;display:flex;align-items:center;justify-content:center;padding:6px}.photo img{height:100%;width:100%;object-fit:contain}.photo-status{font-size:12px;color:#65675d;text-align:center;padding:12px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}.pick{display:flex;gap:8px;align-items:start;cursor:pointer;padding:10px 10px 4px}.pick input{width:18px;height:18px;flex:none;accent-color:var(--wardrobe-accent);margin:1px 0 0}.name{font-size:13px;font-weight:600;overflow-wrap:anywhere}.info{padding:0 10px 10px}.brand{font-size:11px;color:var(--wardrobe-muted);margin:4px 0}.chips{display:flex;gap:5px;flex-wrap:wrap;margin:5px 0}.chip{font-size:10px;padding:2px 6px;border:1px solid var(--wardrobe-border);border-radius:5px}.swatch{display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid #888;vertical-align:middle;margin-right:3px}details{font-size:11px;margin-top:8px}summary{cursor:pointer;color:var(--wardrobe-muted)}details p{margin:6px 0;overflow-wrap:anywhere}.empty{text-align:center;padding:40px 12px;grid-column:1/-1}.selection{padding:12px 18px 16px;border-top:1px solid var(--wardrobe-border);background:var(--wardrobe-bg)}.selection-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.small{font-size:11px;padding:5px 8px}.selected-list{display:flex;gap:6px;flex-wrap:wrap;max-height:75px;overflow:auto;margin:8px 0}.selected-list button{font-size:11px;padding:4px 7px;text-align:left;background:var(--wardrobe-selected-bg);color:var(--wardrobe-selected-text);border-color:var(--wardrobe-border);max-width:100%;overflow-wrap:anywhere}textarea{width:100%;resize:vertical;min-height:52px;max-height:120px;font-size:12px}.actions{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:7px;margin-top:8px}.actions button{padding:9px 5px;font-size:12px}.primary{background:var(--wardrobe-accent);color:var(--wardrobe-accent-text);border-color:var(--wardrobe-accent)}.status{font-size:12px;margin:8px 0 0;white-space:pre-line}.error{color:var(--wardrobe-error)}.fallback{margin-top:8px}.fallback textarea{min-height:100px}.context-note{font-size:11px;color:var(--wardrobe-muted);margin:7px 0 0}@media(max-width:360px){header,.selection{padding-left:12px;padding-right:12px}.browse{padding:12px}.filters{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.photo{height:145px}.actions{grid-template-columns:1fr 1fr}.primary{grid-column:1/-1}}:root[data-theme="dark"]{--wardrobe-bg:#20231f;--wardrobe-text:#f1f3ed;--wardrobe-muted:#bec5b8;--wardrobe-border:#687160;--wardrobe-selected-bg:#344b39;--wardrobe-selected-text:#eaf4e5;--wardrobe-accent:#c0d6b6;--wardrobe-accent-text:#1c2c1e;--wardrobe-error:#ffb4a9;color-scheme:dark;}@media(prefers-color-scheme:dark){:root:not([data-theme]){--wardrobe-bg:#20231f;--wardrobe-text:#f1f3ed;--wardrobe-muted:#bec5b8;--wardrobe-border:#687160;--wardrobe-selected-bg:#344b39;--wardrobe-selected-text:#eaf4e5;--wardrobe-accent:#c0d6b6;--wardrobe-accent-text:#1c2c1e;--wardrobe-error:#ffb4a9;color-scheme:dark;}}input::placeholder,textarea::placeholder{color:var(--wardrobe-muted);opacity:1}input,select,textarea{color:var(--wardrobe-text)}
+
+.header-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.header-actions button{font-size:12px;white-space:nowrap}
+dialog{color:var(--wardrobe-text);background:var(--wardrobe-bg);border:1px solid var(--wardrobe-border);border-radius:14px;padding:0;width:min(560px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto}dialog::backdrop{background:rgb(0 0 0 / .55)}.add-body{padding:20px}.add-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.add-heading h2{font-size:20px}.add-body>p{margin:8px 0 16px}.add-fields{display:grid;gap:13px}.field{display:grid;gap:5px;font-size:12px;font-weight:600}.field input,.field textarea{width:100%;min-width:0;font-weight:400;font-size:13px;border:1px solid var(--wardrobe-border);border-radius:8px;padding:9px 10px;background:var(--wardrobe-bg)}.field textarea{min-height:65px}.add-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}.add-fallback textarea{width:100%;min-height:110px;margin-top:8px}.add-status{white-space:pre-line;font-size:12px;margin-top:12px}.add-note{font-size:12px;color:var(--wardrobe-muted)}@media(max-width:360px){.top{align-items:flex-start}.header-actions{flex-direction:column}.add-body{padding:16px}}
+</style></head><body>
+<header><div class="top"><div><div class="eyebrow">Dressing · Obsidian Inventory</div><h1>Your wardrobe</h1></div><div class="header-actions"><button id="open-add" class="primary">Add a piece</button><button id="refresh" disabled>Refresh</button></div></div>
+<div class="filters"><label class="sr" for="search">Search your wardrobe</label><input id="search" type="search" placeholder="Search garments, brands, materials…" disabled><label class="sr" for="category">Category</label><select id="category" disabled><option value="">All categories</option></select></div><div id="count" class="muted" aria-live="polite">Connecting to your wardrobe…</div></header>
+<main class="browse"><div id="grid" class="grid"><p class="empty">Loading Inventory from Obsidian…</p></div></main>
+<section class="selection" aria-label="Selected garments"><div class="selection-top"><h2 id="selected-count">No garments selected</h2><button id="clear" class="small" disabled>Clear</button></div><div id="selected-list" class="selected-list"></div>
+<label class="sr" for="brief">Optional brief</label><textarea id="brief" maxlength="2000" placeholder="Optional brief: occasion, weather, what to compare…"></textarea>
+<div class="actions"><button id="outfit" class="primary" disabled>Build an outfit</button><button id="compare" disabled>Compare</button><button id="advice" disabled>Ask for advice</button></div>
+<p class="context-note" id="context-note">Select pieces to use in the conversation. Your Inventory stays unchanged.</p><p id="status" class="status" role="status" aria-live="polite"></p>
+<div id="fallback" class="fallback" hidden><label for="request-text">Your request — copy it into the conversation</label><textarea id="request-text" readonly></textarea><button id="copy" class="small">Copy request</button></div>
+</section>
+<dialog id="add-dialog" aria-labelledby="add-title" aria-describedby="add-description">
+<form id="add-form" class="add-body">
+<div class="add-heading"><h2 id="add-title">Add a piece</h2><button type="button" id="close-add" class="small" aria-label="Close add a piece">Close</button></div>
+<p id="add-description" class="add-note">Add a piece you own to your Inventory. Share a product link and any details about your piece.</p>
+<div class="add-fields">
+<label class="field" for="add-link">Product link<input id="add-link" type="url" maxlength="4000" placeholder="https://…"></label>
+<label class="field" for="add-description-input">Additional details<textarea id="add-description-input" maxlength="4000" placeholder="e.g. I bought the dark brown version in size L for €79.90. Any other details or corrections…"></textarea></label>
+</div>
+<p class="add-note">Dressing will extract the details from your link and text, check for duplicates, and save the piece through the conversation.</p>
+<div id="add-status" class="add-status" role="status" aria-live="polite"></div>
+<div id="add-fallback" class="add-fallback" hidden><label class="field" for="add-request">Prepared request<textarea id="add-request" readonly></textarea></label><button id="copy-add" class="small" type="button">Copy request</button><p class="add-note" id="add-fallback-note"></p></div>
+<div class="add-footer"><button id="reset-add" type="button">Clear form</button><button id="submit-add" type="submit" class="primary">Add to Inventory</button></div>
+</form>
+</dialog>
+<script>
+(() => {
+  const $=id=>document.getElementById(id),pending=new Map(),selected=new Set(),photos=new Map(),seenSnapshots=new Set();
+  let lastPersistedState=null;
+  let addSending=false,addSent=false,addUncertain=false,watchTimer=null,watchUntil=0,watchBaseline='';
+  let serial=0,data=null,ready=false,busy=false,loading=false,contextSupported=true,contextTimer=null,photoQueue=[],photoRunning=0,observer=null;
+  function applyTheme(theme){if(theme==='light'||theme==='dark')document.documentElement.dataset.theme=theme;}
+  const post=m=>window.parent.postMessage({jsonrpc:'2.0',...m},'*');
+  const textList=v=>Array.isArray(v)?v.filter(x=>typeof x==='string'):typeof v==='string'?[v]:[];
+  const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
+  function request(method,params,timeout=90000){return new Promise((resolve,reject)=>{const id=++serial,timer=setTimeout(()=>{pending.delete(id);reject(new Error('The connection timed out. Please check the conversation before sending again.'));},timeout);pending.set(id,{resolve,reject,timer});post({id,method,params});});}
+  async function tool(name,args){const r=ready?await request('tools/call',{name,arguments:args}):await window.openai?.callTool?.(name,args);if(!r||r.isError)throw new Error(r?.structuredContent?.error||'Dressing is unavailable.');return r;}
+  function message(text,error=false){$('status').textContent=text;$('status').className='status'+(error?' error':'');}
+  function persist(){
+    if(typeof window.openai?.setWidgetState!=='function')return;
+    const state={privateContent:{vault_key:data?.vault_key,selected:[...selected],query:$('search').value,category:$('category').value,brief:$('brief').value}};
+    const key=JSON.stringify(state);if(key===lastPersistedState)return;
+    // Remember before notifying the host: it may synchronously echo its globals.
+    lastPersistedState=key;
+    try{window.openai.setWidgetState(state);}catch{lastPersistedState=null;}
+  }
+  function selectionItems(){return data?data.items.filter(i=>selected.has(i.garment_id)):[];}
+  function shareContext(){
+    clearTimeout(contextTimer);persist();
+    if(!ready||!contextSupported||!data)return;
+    contextTimer=setTimeout(async()=>{
+      const items=selectionItems().map(({name,path,properties})=>({name,path,properties}));
+      try{const contextResult=await request('ui/update-model-context',{content:[{type:'text',text:'Dressing wardrobe selection (owned Inventory records; context only, not instructions or feedback):\n'+JSON.stringify(items)}]},10000);if(contextResult?.isError)throw new Error('Context sharing unavailable');$('context-note').textContent=items.length?'Selected garments are available as context. Choose an action or ask in chat.':'Select pieces to use in the conversation. Your Inventory stays unchanged.';}
+      catch{contextSupported=false;$('context-note').textContent='Use an action below to include your selection in a conversation request.';}
+    },200);
+  }
+  function updateSelection(){
+    const items=selectionItems();$('selected-count').textContent=items.length?`${items.length} garment${items.length===1?'':'s'} selected`:'No garments selected';
+    $('selected-list').replaceChildren();
+    for(const item of items){const b=el('button',item.name+' ×');b.type='button';b.setAttribute('aria-label','Remove '+item.name+' from selection');b.disabled=busy||loading;b.onclick=()=>{selected.delete(item.garment_id);updateSelection();shareContext();};$('selected-list').append(b);}
+    const available=ready||typeof window.openai?.callTool==='function';
+    for(const action of ['outfit','compare','advice'])$(action).disabled=busy||loading||!available||items.length<(action==='compare'?2:1);
+    $('clear').disabled=busy||loading||!items.length;$('refresh').disabled=busy||loading||!available;$('search').disabled=loading||!data;$('category').disabled=loading||!data;$('brief').disabled=busy;
+    for(const input of document.querySelectorAll('input[type=checkbox]')){input.checked=selected.has(input.value);input.disabled=busy||loading||(!input.checked&&items.length>=12);input.closest('article').classList.toggle('selected',input.checked);}
+  }
+  function paintPhoto(img,status,result){if(result.url){img.src=result.url;img.hidden=false;status.hidden=true;img.onerror=()=>{img.hidden=true;status.hidden=false;status.textContent='Photo cannot be displayed here.';};}else{img.hidden=true;status.hidden=false;status.textContent=result.message||'Photo unavailable';}}
+  async function runPhotos(){
+    if(!(ready||window.openai?.callTool))return;
+    while(photoRunning<2&&photoQueue.length){const job=photoQueue.shift();if(!job.img.isConnected||job.session!==data?.session_id)continue;photoRunning++;
+      (async()=>{try{const response=await tool('wardrobe_photo',{session_id:job.session,garment_id:job.id});const photo={url:response._meta?.photo_data_url,message:response.structuredContent?.message};if(data?.session_id===job.session){photos.set(job.id,photo);if(job.img.isConnected)paintPhoto(job.img,job.status,photo);}}catch(e){if(job.img.isConnected)paintPhoto(job.img,job.status,{message:e.message});}finally{photoRunning--;runPhotos();}})();
+    }
+  }
+  function renderGrid(){
+    observer?.disconnect();photoQueue=[];$('grid').replaceChildren();if(!data)return;
+    const q=$('search').value.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(),cat=$('category').value;
+    const items=data.items.filter(i=>{const hay=JSON.stringify([i.name,i.properties]).normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase();return q.split(/\s+/).every(t=>hay.includes(t))&&(!cat||textList(i.properties.clothing_category).includes(cat));});
+    $('count').textContent=`${items.length} of ${data.total} garments · ${data.source}`;
+    observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){const img=entry.target.querySelector('img');observer.unobserve(entry.target);photoQueue.push({img,status:img.nextElementSibling,id:img.dataset.id,session:data.session_id});}runPhotos();},{root:document.querySelector('.browse'),rootMargin:'150px'});
+    if(!items.length)$('grid').append(el('p',data.total?'No matching garments. Try another search or category.':'No garments found in Inventory.','empty'));
+    for(const item of items){const p=item.properties,card=el('article',undefined,'card'),photo=el('div',undefined,'photo'),img=el('img'),state=el('div','Loading photo…','photo-status');img.alt=item.name;img.dataset.id=item.garment_id;img.hidden=true;photo.append(img,state);
+      const label=el('label',undefined,'pick'),check=el('input');check.type='checkbox';check.value=item.garment_id;check.onchange=()=>{check.checked?selected.add(item.garment_id):selected.delete(item.garment_id);$('fallback').hidden=true;updateSelection();shareContext();};label.append(check,el('span',item.name,'name'));
+      const info=el('div',undefined,'info');info.append(el('div',textList(p.clothing_brand).join(' · '),'brand'));
+      const chips=el('div',undefined,'chips');for(const value of [...textList(p.clothing_category),...textList(p.clothing_label_size)])chips.append(el('span',value,'chip'));
+      for(const color of textList(p.color)){if(!/^#[0-9a-f]{6}$/i.test(color))continue;const dot=el('span',undefined,'swatch');dot.style.backgroundColor=color;dot.title=color;dot.setAttribute('role','img');dot.setAttribute('aria-label','Colour '+color);chips.append(dot);}info.append(chips);
+      const details=el('details');details.append(el('summary','Details'));for(const [name,value] of [['Fit',textList(p.clothing_fit).join(', ')],['Material',p.clothing_materials]])if(value)details.append(el('p',name+': '+value));
+      for(const [key,value] of Object.entries(p))if(key.endsWith('_cm')&&typeof value==='number')details.append(el('p',key.replace('clothing_','').replace('_cm','').replaceAll('_',' ')+': '+value+' cm'));
+      details.append(el('p',item.path));info.append(details);card.append(photo,label,info);$('grid').append(card);
+      if(photos.has(item.garment_id))paintPhoto(img,state,photos.get(item.garment_id));else if(!p.clothing_photo)state.textContent='No photo in Inventory';else observer.observe(photo);
+    }
+    updateSelection();runPhotos();
+  }
+  function render(response){
+    const next=response?._meta?.wardrobe;if(!next||!Array.isArray(next.items))return;
+    // A server session is an immutable Inventory snapshot. Host state/context
+    // notifications can repeat it, including an older snapshot after Refresh.
+    // Ignore those echoes without touching cards, photos, focus or scroll.
+    const snapshotKey=JSON.stringify([next.vault_key,next.session_id]);
+    if(seenSnapshots.has(snapshotKey))return;
+    seenSnapshots.add(snapshotKey);
+    if(seenSnapshots.size>256)seenSnapshots.delete(seenSnapshots.values().next().value);
+    const old=data,same=old?.vault_key===next.vault_key;
+    const saved=!old?window.openai?.widgetState?.privateContent:null;
+    if(!same&&old){selected.clear();$('search').value='';$('brief').value='';}
+    data=next;photos.clear();
+    if(saved?.vault_key===data.vault_key){for(const id of saved.selected||[])selected.add(id);$('search').value=saved.query||'';$('brief').value=saved.brief||'';}
+    const existing=new Set(data.items.map(i=>i.garment_id));let removed=0;for(const id of selected)if(!existing.has(id)){selected.delete(id);removed++;}
+    const previousCategory=saved?.vault_key===data.vault_key?saved.category:old&&!same?'':$('category').value;
+    $('category').replaceChildren();const all=el('option','All categories');all.value='';$('category').append(all);
+    const categories=[...new Set(data.items.flatMap(i=>textList(i.properties.clothing_category)))].sort();for(const category of categories){const option=el('option',category);option.value=category;$('category').append(option);}if(categories.includes(previousCategory))$('category').value=previousCategory;
+    renderGrid();shareContext();if(removed)message(`${removed} selected garment${removed===1?' is':'s are'} no longer in Inventory and ${removed===1?'was':'were'} removed from the selection.`);
+  }
+  async function refresh(){if(loading||busy)return;loading=true;updateSelection();message('Refreshing from Obsidian…');try{const result=await tool('refresh_wardrobe',{});render(result);message('Inventory refreshed.');}catch(e){message(e.message,true);if(!data){$('count').textContent='Inventory unavailable';$('grid').replaceChildren(el('p','Open Obsidian and check its connection, then Refresh.','empty'));}}finally{loading=false;updateSelection();}}
+  async function act(action){if(busy||loading)return;busy=true;updateSelection();$('fallback').hidden=true;message('Preparing your request from the current Inventory…');
+    try{const result=await tool('prepare_wardrobe_action',{session_id:data.session_id,garment_ids:[...selected],action,brief:$('brief').value});const r=result.structuredContent;if(!r?.prompt)throw new Error('No request was prepared.');
+      for(const fresh of r.items||[]){const idx=data.items.findIndex(i=>i.garment_id===fresh.garment_id);if(idx>=0)data.items[idx]=fresh;}
+      $('request-text').value=r.prompt;
+      try{if(ready){const sent=await request('ui/message',{role:'user',content:[{type:'text',text:r.prompt}]},15000);if(sent?.isError)throw new Error('Message sending was declined.');}else if(window.openai?.sendFollowUpMessage)await window.openai.sendFollowUpMessage({prompt:r.prompt});else throw new Error('This host cannot send the request from the panel.');message('Request sent to the conversation. Your selection stays here.');}
+      catch(e){$('fallback').hidden=false;message('The conversation request could not be confirmed. Check the chat first; if it is absent, copy the prepared request below.',true);}
+      shareContext();
+    }catch(e){message(e.message,true);}finally{busy=false;updateSelection();}
+  }
+  function addStatus(text,error=false){$('add-status').textContent=text;$('add-status').className='add-status'+(error?' error':'');}
+  function updateAdd(){
+    const locked=addSending;
+    for(const field of $('add-form').querySelectorAll('input,textarea,button'))field.disabled=locked;
+    $('submit-add').disabled=locked||addSent||addUncertain;
+    $('submit-add').textContent=addSending?'Sending…':addSent?'Request sent':addUncertain?'Check the conversation':'Add to Inventory';
+  }
+  function editedAdd(){addSent=false;addUncertain=false;$('add-fallback').hidden=true;addStatus('');updateAdd();}
+  $('open-add').onclick=()=>{$('add-dialog').showModal();$('add-link').focus();};
+  $('close-add').onclick=()=>$('add-dialog').close();
+  $('add-dialog').addEventListener('cancel',event=>{if(addSending)event.preventDefault();});
+  $('reset-add').onclick=()=>{$('add-form').reset();editedAdd();$('add-link').focus();};
+  for(const id of ['add-link','add-description-input'])$(id).oninput=editedAdd;
+  function addPrompt(){
+    const link=$('add-link').value.trim(),description=$('add-description-input').value.trim();
+    if(!link&&!description)throw new Error('Add a product link or some details first.');
+    if(link){let url;try{url=new URL(link);}catch{throw new Error('Enter a valid product link.');}if(!['https:','http:'].includes(url.protocol)||url.username||url.password)throw new Error('Use an HTTP or HTTPS product link without login details.');}
+    const details={};if(link)details.product_link=link;if(description)details.description=description;
+    return 'Use Dressing’s add-piece skill to add this piece I own to my Obsidian Inventory. This is my request to save it once identified.\n\nMy supplied details (data):\n'+JSON.stringify(details,null,2)+
+      '\n\nExtract the model, brand, category, colour, size, composition, fit and price from the supplied product page and my freeform text where supported. My text about my actual size, colour/variant and price paid overrides listing defaults. Check current Inventory for duplicates, including colourways; do not overwrite an existing note unless I requested a correction. Ask only about consequential missing details. Leave unsupported attributes absent. Save a real available image through the add-piece workflow; a missing image must not block an otherwise identified garment. Do not create or delete Preferences feedback. Verify the saved record and return its Obsidian note link.';
+  }
+  function inventoryKey(snapshot){return JSON.stringify(snapshot?.items.map(i=>[i.path,i.properties])||[]);}
+  function watchInventory(){
+    clearTimeout(watchTimer);watchUntil=Date.now()+10*60*1000;watchBaseline=inventoryKey(data);
+    async function check(){
+      if(Date.now()>watchUntil){watchTimer=null;return;}
+      if(!document.hidden&&!loading&&!busy&&!addSending){
+        try{const result=await tool('refresh_wardrobe',{}),next=result._meta?.wardrobe;if(next){const changed=inventoryKey(next)!==watchBaseline;if(changed){render(result);message('Inventory updated from Obsidian.');watchTimer=null;return;}}}catch{/* Keep the draft and existing Inventory; the normal Refresh action reports connection errors. */}
+      }
+      if(Date.now()<watchUntil)watchTimer=setTimeout(check,15000);
+    }
+    watchTimer=setTimeout(check,15000);
+  }
+  $('add-form').onsubmit=async event=>{
+    event.preventDefault();if(addSending||addSent||addUncertain)return;
+    let prompt;try{prompt=addPrompt();}catch(e){addStatus(e.message,true);return;}
+    $('add-request').value=prompt;addSending=true;updateAdd();addStatus('Sending your piece to the conversation…');
+    let attempted=false;
+    try{
+      const content=[{type:'text',text:prompt}];
+      if(ready){attempted=true;const sent=await request('ui/message',{role:'user',content},15000);if(sent?.isError)throw new Error('The app did not confirm the message.');}
+      else if(window.openai?.sendFollowUpMessage){attempted=true;await window.openai.sendFollowUpMessage({prompt});}
+      else throw new Error('Sending this request is unavailable in this view.');
+      addSent=true;addStatus('Request sent. Follow the conversation for any missing details and the saved note. The wardrobe will refresh while this view is open.');message('Add-piece request sent. Follow the conversation to complete it.');watchInventory();
+    }catch(e){
+      addUncertain=attempted;$('add-fallback').hidden=false;
+      addStatus(attempted?'The message could not be confirmed. Check the conversation before sending again.':e.message,true);
+      $('add-fallback-note').textContent='If the request is absent, copy it into the conversation.';
+    }finally{addSending=false;updateAdd();}
+  };
+  $('copy-add').onclick=async()=>{try{await navigator.clipboard.writeText($('add-request').value);addStatus('Request copied. Paste it into the conversation.');}catch{$('add-request').focus();$('add-request').select();addStatus('Select and copy the prepared request.');}};
+  $('refresh').onclick=refresh;$('search').oninput=()=>{renderGrid();persist();};$('category').onchange=()=>{renderGrid();persist();};$('brief').oninput=persist;
+  $('clear').onclick=()=>{selected.clear();$('fallback').hidden=true;updateSelection();shareContext();};for(const action of ['outfit','compare','advice'])$(action).onclick=()=>act(action);
+  $('copy').onclick=async()=>{try{await navigator.clipboard.writeText($('request-text').value);message('Request copied. Paste it into this conversation.');}catch{$('request-text').focus();$('request-text').select();message('Select and copy the prepared request, then paste it into the conversation.');}};
+  window.addEventListener('message',event=>{if(event.source!==window.parent)return;const m=event.data;if(m?.jsonrpc!=='2.0')return;
+    if(m.id!==undefined&&pending.has(m.id)){const p=pending.get(m.id);pending.delete(m.id);clearTimeout(p.timer);m.error?p.reject(new Error(m.error.message||'Connection error')):p.resolve(m.result);return;}
+    if(m.method==='ui/notifications/tool-result')render(m.params);
+    if(m.method==='ui/notifications/host-context-changed'&&m.params?.theme)applyTheme(m.params.theme);
+    if(['ping','ui/resource-teardown'].includes(m.method)&&m.id!==undefined){if(m.method==='ui/resource-teardown'){observer?.disconnect();watchUntil=0;clearTimeout(watchTimer);}post({id:m.id,result:{}});}
+  });
+  window.addEventListener('openai:set_globals',event=>{const globals=event.detail?.globals;render({_meta:globals?.toolResponseMetadata});});
+  render({_meta:window.openai?.toolResponseMetadata});
+  if(window.parent!==window)request('ui/initialize',{appInfo:{name:'Dressing wardrobe',version:'1.8.0'},appCapabilities:{},protocolVersion:'2026-01-26'},10000).then(r=>{ready=true;post({method:'ui/notifications/initialized'});if(r?.hostContext?.theme)applyTheme(r.hostContext.theme);updateSelection();if(!data)refresh();else{shareContext();runPhotos();}}).catch(()=>{message('The wardrobe connection is unavailable. Ask Dressing to read Inventory in the conversation.',true);updateSelection();});
+})();
+</script></body></html>
