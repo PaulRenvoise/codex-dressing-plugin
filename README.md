@@ -95,14 +95,9 @@ Garment records and photos remain in your configured local Obsidian vault. Dress
 
 Vault writes use the configured Obsidian connection and respect its read-only mode. Local CLI communication may require sandbox permission. Preview/demo flows do not save feedback; no personal settings, notes, or credentials are included in this repository.
 
-## Development and tests
+## Development
 
-```sh
-uv run --with mcp==2.3.0 --with pillow==12.3.0 \
-  python -m unittest discover -s tests -v
-```
-
-The tests use temporary fake vaults and exercise the actual MCP stdio exchange, including the packaged `uv run --locked --script` launch. They do not require a configured real vault or write to your Obsidian notes. GitHub Actions runs the suite on macOS and Linux. The interactive desktop rendering itself still requires manual testing in Codex.
+Verify the plugin's behaviour and interactive rendering manually in Codex. Use demo mode when checking recommendation cards or the Styleboard gallery to avoid writing feedback or references to Obsidian.
 
 The MCP launch configuration lives in `plugins/dressing/.mcp.json`. Server dependencies are pinned in `scripts/feedback_server.py` and its adjacent `.lock` file. Keep both in sync when changing dependencies. For runtime releases, update the plugin manifest and server version together.
 
