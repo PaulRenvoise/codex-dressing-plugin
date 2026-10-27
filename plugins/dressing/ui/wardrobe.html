@@ -186,6 +186,6 @@ dialog{color:var(--wardrobe-text);background:var(--wardrobe-bg);border:1px solid
   });
   window.addEventListener('openai:set_globals',event=>{const globals=event.detail?.globals;render({_meta:globals?.toolResponseMetadata});});
   render({_meta:window.openai?.toolResponseMetadata});
-  if(window.parent!==window)request('ui/initialize',{appInfo:{name:'Dressing wardrobe',version:'1.8.1'},appCapabilities:{},protocolVersion:'2026-01-26'},10000).then(r=>{ready=true;post({method:'ui/notifications/initialized'});if(r?.hostContext?.theme)applyTheme(r.hostContext.theme);updateSelection();if(!data)refresh();else{shareContext();runPhotos();}}).catch(()=>{message('The wardrobe connection is unavailable. Ask Dressing to read Inventory in the conversation.',true);updateSelection();});
+  if(window.parent!==window)request('ui/initialize',{appInfo:{name:'Dressing',version:'1.8.2'},appCapabilities:{},protocolVersion:'2026-01-26'},10000).then(r=>{ready=true;post({method:'ui/notifications/initialized'});if(r?.hostContext?.theme)applyTheme(r.hostContext.theme);updateSelection();if(!data)refresh();else{shareContext();runPhotos();}}).catch(()=>{message('The wardrobe connection is unavailable. Ask Dressing to read Inventory in the conversation.',true);updateSelection();});
 })();
 </script></body></html>

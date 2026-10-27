@@ -75,7 +75,7 @@
   });
   window.addEventListener('openai:set_globals',event=>render(event.detail?.globals?.toolOutput));
   if(window.openai?.toolOutput)render(window.openai.toolOutput);
-  if(window.parent!==window)request('ui/initialize',{appInfo:{name:'Dressing',version:'1.8.1'},appCapabilities:{},protocolVersion:'2026-01-26'},10000).then(result=>{
+  if(window.parent!==window)request('ui/initialize',{appInfo:{name:'Dressing',version:'1.8.2'},appCapabilities:{},protocolVersion:'2026-01-26'},10000).then(result=>{
     bridgeReady=true;post({method:'ui/notifications/initialized'});if(result?.hostContext?.theme)document.documentElement.style.colorScheme=result.hostContext.theme;notifySize();
   }).catch(()=>{if(!data)document.getElementById('waiting').textContent='This app does not provide the connection needed for cards. The native form is still available.';});
 })();

@@ -78,7 +78,7 @@ TOOL = types.Tool(
 )
 
 
-VERSION = "1.8.1"
+VERSION = "1.8.2"
 ASSETS = Path(__file__).resolve().parent.parent / "assets"
 # Inline packaged icons so discovery works offline and from any working directory.
 DRESSING_ICONS = [
@@ -174,7 +174,7 @@ READ_ONLY = types.ToolAnnotations(read_only_hint=True, destructive_hint=False, i
 APP_ONLY = {"ui": {"visibility": ["app"]}, "openai/visibility": "private", "openai/widgetAccessible": True}
 EMPTY_SCHEMA = {"type": "object", "properties": {}, "additionalProperties": False}
 WARDROBE_TOOL = types.Tool(
-    name="open_wardrobe", title="Dressing wardrobe",
+    name="open_wardrobe", title="Dressing",
     icons=DRESSING_ICONS,
     description="Open the searchable wardrobe gallery from live Obsidian Inventory. Users can select owned garments "
                 "and ask for outfits, comparisons or advice. Read-only; selection never saves preferences. "
@@ -343,7 +343,7 @@ def build_server(vault_factory=Vault):
     wardrobe = Wardrobe(vault_factory)
 
     resources = {
-        WARDROBE_URI: ("Dressing wardrobe", "wardrobe.html", [], None),
+        WARDROBE_URI: ("Dressing", "wardrobe.html", [], None),
     }
 
     def expire_resources():
