@@ -1,13 +1,15 @@
 {
   "name": "dressing",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Manage Inventory, curate the Styleboard, and get style advice and recommendations grounded in Obsidian Preferences.",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "requires_local_executor": true,
   "interface": {
     "displayName": "Dressing",
-    "websiteURL": "https://github.com/PaulRenvoise/codex-dressing-plugin"
+    "websiteURL": "https://github.com/PaulRenvoise/codex-dressing-plugin",
+    "composerIcon": "./assets/tshirt.svg",
+    "logo": "./assets/tshirt.svg"
   },
   "homepage": "https://github.com/PaulRenvoise/codex-dressing-plugin"
 }

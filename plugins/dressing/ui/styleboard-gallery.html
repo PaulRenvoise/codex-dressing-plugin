@@ -80,6 +80,6 @@
   });
   window.addEventListener('openai:set_globals',event=>render(event.detail?.globals?.toolOutput));
   if(window.openai?.toolOutput)render(window.openai.toolOutput);
-  if(window.parent!==window)request('ui/initialize',{appInfo:{name:'Dressing Styleboard',version:'1.8.0'},appCapabilities:{},protocolVersion:'2026-01-26'},10000).then(r=>{ready=true;post({method:'ui/notifications/initialized'});if(r?.hostContext?.theme)document.documentElement.style.colorScheme=r.hostContext.theme;update();}).catch(()=>{$('status').textContent='The gallery connection is unavailable. You can tell Dressing your selections in chat.';update();});
+  if(window.parent!==window)request('ui/initialize',{appInfo:{name:'Dressing Styleboard',version:'1.8.1'},appCapabilities:{},protocolVersion:'2026-01-26'},10000).then(r=>{ready=true;post({method:'ui/notifications/initialized'});if(r?.hostContext?.theme)document.documentElement.style.colorScheme=r.hostContext.theme;update();}).catch(()=>{$('status').textContent='The gallery connection is unavailable. You can tell Dressing your selections in chat.';update();});
 })();
 </script></body></html>
