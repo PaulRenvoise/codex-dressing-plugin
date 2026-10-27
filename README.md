@@ -13,7 +13,7 @@ Dressing uses three collections: **Inventory** for owned garments, **Styleboard*
 - Select visual references and add them to an existing Styleboard Canvas group.
 - Configure the three collection locations in native plugin settings.
 
-The package includes five skills, three MCP App views, and a local Python MCP server. The current runtime is Dressing **1.8.1**.
+The package includes five skills, three MCP App views, and a local Python MCP server. The current runtime is Dressing **1.8.2**.
 
 ## Requirements
 
