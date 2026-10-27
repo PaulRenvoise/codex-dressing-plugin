@@ -4,6 +4,7 @@
 # dependencies = ["mcp==2.3.0", "pillow==12.3.0"]
 # ///
 """Native MCP feedback forms, saved through Dressing's existing vault helper."""
+import base64
 import copy
 import json
 import secrets
@@ -77,7 +78,18 @@ TOOL = types.Tool(
 )
 
 
-VERSION = "1.8.0"
+VERSION = "1.8.1"
+ASSETS = Path(__file__).resolve().parent.parent / "assets"
+# Inline packaged icons so discovery works offline and from any working directory.
+DRESSING_ICONS = [
+    types.Icon(
+        src="data:image/svg+xml;base64," + base64.b64encode(
+            (ASSETS / f"tshirt-{theme}.svg").read_bytes()
+        ).decode("ascii"),
+        mime_type="image/svg+xml", sizes=["any"], theme=theme,
+    )
+    for theme in ("light", "dark")
+]
 UI_URI = "ui://dressing/recommendations-v2"
 CARD_SCHEMA = {
     "type": "object",
@@ -163,6 +175,7 @@ APP_ONLY = {"ui": {"visibility": ["app"]}, "openai/visibility": "private", "open
 EMPTY_SCHEMA = {"type": "object", "properties": {}, "additionalProperties": False}
 WARDROBE_TOOL = types.Tool(
     name="open_wardrobe", title="Dressing wardrobe",
+    icons=DRESSING_ICONS,
     description="Open the searchable wardrobe gallery from live Obsidian Inventory. Users can select owned garments "
                 "and ask for outfits, comparisons or advice. Read-only; selection never saves preferences. "
                 "Also available from the global sidebar and as a Dressing conversation side-panel entrypoint.",
@@ -564,7 +577,7 @@ def build_server(vault_factory=Vault):
             return tool_result({"error": str(error)}, error=True)
 
     return DressingServer(
-        "Dressing", version=VERSION,
+        "Dressing", version=VERSION, icons=DRESSING_ICONS,
         instructions="Use open_wardrobe to browse owned garments in the Dressing panel. "
                      "Present recommendations with show_recommendations. Only the user may submit card feedback. "
                      "Use show_styleboard_gallery for visual references; only the user may submit gallery selections. "

@@ -13,7 +13,7 @@ Dressing uses three collections: **Inventory** for owned garments, **Styleboard*
 - Select visual references and add them to an existing Styleboard Canvas group.
 - Configure the three collection locations in native plugin settings.
 
-The package includes five skills, three MCP App views, and a local Python MCP server. It preserves the existing Dressing **1.8.0** runtime.
+The package includes five skills, three MCP App views, and a local Python MCP server. The current runtime is Dressing **1.8.1**.
 
 ## Requirements
 
@@ -98,6 +98,8 @@ Vault writes use the configured Obsidian connection and respect its read-only mo
 ## Development
 
 Verify the plugin's behaviour and interactive rendering manually in Codex. Use demo mode when checking recommendation cards or the Styleboard gallery to avoid writing feedback or references to Obsidian.
+
+The wardrobe entry uses bundled light and dark T-shirt icons from `assets/`, embedded as data URLs in its MCP tool metadata. The plugin listing and composer use the matching blue icon.
 
 The MCP launch configuration lives in `plugins/dressing/.mcp.json`. Server dependencies are pinned in `scripts/feedback_server.py` and its adjacent `.lock` file. Keep both in sync when changing dependencies. For runtime releases, update the plugin manifest and server version together.
 
